@@ -19,11 +19,13 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "codegen": "graphql-codegen --config codegen.yml",
+    "start:react": "react-scripts start",
+    "codegen:watch": "graphql-codegen --config codegen.yml --watch",
+    "start": "run-p codegen:watch start:react"
   },
   "eslintConfig": {
     "extends": [
