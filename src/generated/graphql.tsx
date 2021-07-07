@@ -183,7 +183,7 @@ export type GetCityByNameQuery = (
 
 export const GetCityByNameDocument = gql`
     query GetCityByName($name: String!) {
-  getCityByName(name: $name) {
+  getCityByName(name: $name, config: {units: metric}) {
     id
     name
     country

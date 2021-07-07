@@ -1,15 +1,13 @@
+import { useState } from "react";
 import { useGetCityByNameQuery } from "../../generated/graphql";
 
 const Weather = () => {
+  const [city, setCity] = useState("");
   const { data, loading, error } = useGetCityByNameQuery({
     variables: {
-      name: "Toronto",
+      name: city,
     },
   });
-
-  if (loading) {
-    return <div>Loading</div>;
-  }
 
   if (error) {
     return <div>{error.message}</div>;
@@ -22,26 +20,35 @@ const Weather = () => {
   return (
     <div>
       <h1>Weather Summary for Toronto</h1>
-      {summary && (
+      <input
+        type="text"
+        onChange={(e) => setCity(e.target.value)}
+        value={city}
+      ></input>
+      {!loading && (
         <>
-          <h2>{summary.title}</h2>
-          <p>{summary.description}</p>
-        </>
-      )}
-      {temperature && (
-        <>
-          <h4>{temperature.actual}</h4>
-          <ul>
-            <li>
-              <b>Feels like</b>: {temperature.feelsLike}
-            </li>
-            <li>
-              <b>Min</b>: {temperature.min}
-            </li>
-            <li>
-              <b>Max</b>: {temperature.max}
-            </li>
-          </ul>
+          {summary && (
+            <>
+              <h2>{summary.title}</h2>
+              <p>{summary.description}</p>
+            </>
+          )}
+          {temperature && (
+            <>
+              <h4>{temperature.actual}</h4>
+              <ul>
+                <li>
+                  <b>Feels like</b>: {temperature.feelsLike}
+                </li>
+                <li>
+                  <b>Min</b>: {temperature.min}
+                </li>
+                <li>
+                  <b>Max</b>: {temperature.max}
+                </li>
+              </ul>
+            </>
+          )}
         </>
       )}
     </div>
