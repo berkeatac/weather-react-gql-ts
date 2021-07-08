@@ -1,9 +1,20 @@
 import { useEffect, useState, useRef } from "react";
 import { useGetCityByNameLazyQuery } from "../../generated/graphql";
 import _ from "lodash";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+
+const mapProps = {
+  doubleClickZoom: false,
+  closePopupOnClick: false,
+  dragging: false,
+  trackResize: false,
+  touchZoom: false,
+  scrollWheelZoom: false,
+  zoomControl: false,
+};
 
 const Weather = () => {
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState("Munich");
 
   const [getCity, { data, loading, error }] = useGetCityByNameLazyQuery({
     variables: {
@@ -31,7 +42,7 @@ const Weather = () => {
         Weather Information
       </h1>
       <input
-        className="shadow appearance-none border rounded w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        className="shadow appearance-none border rounded w-96 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         type="text"
         placeholder="City Name"
         onChange={(e) => setCity(e.target.value)}
@@ -60,6 +71,34 @@ const Weather = () => {
                 </li>
               </ul>
             </>
+          )}
+          {data?.getCityByName?.coord && (
+            <div className="flex justify-center">
+              <MapContainer
+                style={{ height: "30vh", width: "60vh" }}
+                center={[
+                  data?.getCityByName?.coord?.lat || 51.505,
+                  data?.getCityByName?.coord?.lon || -0.09,
+                ]}
+                zoom={13}
+                {...mapProps}
+              >
+                <TileLayer
+                  attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker
+                  position={[
+                    data?.getCityByName?.coord?.lat || 51.505,
+                    data?.getCityByName?.coord?.lon || -0.09,
+                  ]}
+                >
+                  <Popup>
+                    A pretty CSS3 popup. <br /> Easily customizable.
+                  </Popup>
+                </Marker>
+              </MapContainer>
+            </div>
           )}
         </>
       )}
