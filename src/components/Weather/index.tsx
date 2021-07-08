@@ -1,13 +1,21 @@
-import { useState } from "react";
-import { useGetCityByNameQuery } from "../../generated/graphql";
+import { useEffect, useState, useRef } from "react";
+import { useGetCityByNameLazyQuery } from "../../generated/graphql";
+import _ from "lodash";
 
 const Weather = () => {
   const [city, setCity] = useState("");
-  const { data, loading, error } = useGetCityByNameQuery({
+
+  const [getCity, { data, loading, error }] = useGetCityByNameLazyQuery({
     variables: {
       name: city,
     },
   });
+
+  const debouncedGetCity = useRef(_.debounce(getCity, 1000));
+
+  useEffect(() => {
+    debouncedGetCity.current({ variables: { name: city } });
+  }, [city]);
 
   if (error) {
     return <div>{error.message}</div>;
@@ -19,9 +27,13 @@ const Weather = () => {
 
   return (
     <div>
-      <h1>Weather Summary for Toronto</h1>
+      <h1 className="text-lg font-medium text-gray-900 m-4">
+        Weather Information
+      </h1>
       <input
+        className="shadow appearance-none border rounded w-1/4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         type="text"
+        placeholder="City Name"
         onChange={(e) => setCity(e.target.value)}
         value={city}
       ></input>

@@ -19,6 +19,10 @@ export const GET_CITY_BY_NAME = gql`
           max
         }
       }
+      coord {
+        lon
+        lat
+      }
     }
   }
 `;

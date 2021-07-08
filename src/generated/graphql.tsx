@@ -176,6 +176,9 @@ export type GetCityByNameQuery = (
         { __typename?: 'Temperature' }
         & Pick<Temperature, 'actual' | 'feelsLike' | 'min' | 'max'>
       )> }
+    )>, coord?: Maybe<(
+      { __typename?: 'Coordinates' }
+      & Pick<Coordinates, 'lon' | 'lat'>
     )> }
   )> }
 );
@@ -199,6 +202,10 @@ export const GetCityByNameDocument = gql`
         min
         max
       }
+    }
+    coord {
+      lon
+      lat
     }
   }
 }
