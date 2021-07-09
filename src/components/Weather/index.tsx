@@ -25,10 +25,6 @@ const Weather = () => {
     return <div>{error.message}</div>;
   }
 
-  const weather = data?.getCityByName?.weather;
-  const summary = weather?.summary;
-  const temperature = weather?.temperature;
-
   return (
     <div>
       <h1 className="text-2xl font-medium text-gray-900 m-4">
