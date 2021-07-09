@@ -27,7 +27,7 @@ const Weather = () => {
   const debouncedGetCity = useRef(_.debounce(getCity, 1000));
 
   useEffect(() => {
-    debouncedGetCity.current({ variables: { name: city } });
+    debouncedGetCity.current({ variables: { name: city.toLowerCase() } });
   }, [city]);
 
   if (error) {
@@ -41,7 +41,7 @@ const Weather = () => {
   return (
     <div>
       <h1 className="text-lg font-medium text-gray-900 m-4">
-        Weather Information
+        Weather Master 3000
       </h1>
       <input
         className="shadow appearance-none border rounded w-96 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -53,13 +53,13 @@ const Weather = () => {
       {!loading && !error && data?.getCityByName && (
         <>
           <div className="flex justify-center mt-6">
-            <div className="bg-white shadow-lg rounded-3xl p-4 w-full h-full lg:w-3/4 lg:h-1/4 overflow-hidden">
+            <div className="bg-white shadow-lg rounded-3xl p-4 w-full h-full mx-2 lg:w-1/2 lg:h-1/4 overflow-hidden">
               <div className="flex-none lg:flex">
-                <div className=" h-full w-full lg:h-48 lg:w-48 lg:mb-0 mb-3">
+                <div className=" h-48 w-full lg:h-48 lg:w-48 lg:mb-0 mb-3">
                   {data?.getCityByName?.coord && (
                     <div className="flex justify-center">
                       <MapContainer
-                        className=" h-full w-full lg:h-48 lg:w-48 lg:mb-0 mb-3 rounded-xl"
+                        className=" h-48 w-full lg:h-48 lg:w-48 lg:mb-0 mb-3 rounded-xl"
                         center={[
                           data?.getCityByName?.coord?.lat || 51.505,
                           data?.getCityByName?.coord?.lon || -0.09,
@@ -89,7 +89,7 @@ const Weather = () => {
                     </h2>
                   </div>
                   <p className="mt-3"></p>
-                  <div className="flex py-4  text-sm text-gray-600">
+                  <div className="flex text-sm text-gray-600">
                     <div className="flex-1 inline-flex items-center">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
